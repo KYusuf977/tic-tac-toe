@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+public class TicTacToe {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		Board b = new Board();
+		b.print();
+		boolean done = false;
+		char cp = ' ';
+        //This while loop will continue to run until either the isFull or isWin methods return true from the Board file.
+		while (!done) {
+			boolean done1 = false;
+			cp = b.currPlayer();
+			System.out.print(cp + " player: Enter row and column numbers:");
+			//This while loop will continue to run until the row+column given by the user is within an accepted range. Else, it will continue to iterate and ask for a new input.
+			while (!done1) {
+				String input1 = input.nextLine();
+				int row = Integer.parseInt(input1.substring(0, 1));
+				int col = Integer.parseInt(input1.substring(2));
+				if (row >= 4 || row <= 0)  {
+					System.out.println("Incorrect cell. Try again!"); 
+					System.out.print("Enter row and column numbers:");
+				} else if (col >= 4 || col <= 0) { 
+					System.out.println("Incorrect cell. Try again!");
+					System.out.print("Enter row and column numbers:");
+				} else if (!b.setRowCol(row - 1, col - 1)) { 
+					System.out.println("Incorrect cell. Try again!");
+					System.out.print("Enter row and column numbers:");
+				}
+				else {
+					done1 = true;
+				}
+			}
+			b.print();
+			b.changePlayer();
+			done = b.isFull();
+			done = b.isWin();
+		}
+		//This code will print out the results of the game, if the board is full the game is tied, else the last player to input won. 
+		if (b.isFull())
+			System.out.println("The game is tied.");
+		else if (b.isWin())
+			System.out.println(cp + " player wins!");
+
+		System.out.println("Goodbye!");
+
+	}
+}
